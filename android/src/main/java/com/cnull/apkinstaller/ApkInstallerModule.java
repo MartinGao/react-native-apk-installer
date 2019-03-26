@@ -44,6 +44,7 @@ public class ApkInstallerModule extends ReactContextBaseJavaModule {
     Toast.makeText(getReactApplicationContext(), message, Toast.LENGTH_LONG).show();
   }
 
+  @ReactMethod
   public void install(String path, String activity) {
     Log.i("APK_INSTALLER", "install " + path);
     String cmd = "chmod 777 " + path;
