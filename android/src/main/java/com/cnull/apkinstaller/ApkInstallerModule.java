@@ -8,10 +8,11 @@ import com.facebook.react.bridge.ReactMethod;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.io.File;
 
 import android.content.Intent;
 import android.net.Uri;
-import java.io.File;
+import android.util.Log;
 
 public class ApkInstallerModule extends ReactContextBaseJavaModule {
   private ReactApplicationContext _context = null;
@@ -44,7 +45,7 @@ public class ApkInstallerModule extends ReactContextBaseJavaModule {
   }
 
   public void install(String path, String activity) {
-    Log.i("INSTALLER", "install " + path);
+    Log.i("APK_INSTALLER", "install " + path);
     String cmd = "chmod 777 " + path;
     try {
         Runtime.getRuntime().exec(cmd);
@@ -61,7 +62,7 @@ public class ApkInstallerModule extends ReactContextBaseJavaModule {
       processStartActivity.waitFor();
       
     } catch (Exception ex) {
-      Log.i("INSTALLER", "ERROR Could not pm install", ex);
+      Log.i("APK_INSTALLER", "ERROR Could not pm install", ex);
     }
   }
 }
