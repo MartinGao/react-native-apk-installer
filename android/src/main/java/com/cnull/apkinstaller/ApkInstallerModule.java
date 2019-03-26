@@ -43,17 +43,25 @@ public class ApkInstallerModule extends ReactContextBaseJavaModule {
     Toast.makeText(getReactApplicationContext(), message, Toast.LENGTH_LONG).show();
   }
 
-  @ReactMethod
-  public void install(String path) {
-      String cmd = "chmod 777 " +path;
-      try {
-          Runtime.getRuntime().exec(cmd);
-      } catch (Exception e) {
-          e.printStackTrace();
-      }
-      Intent intent = new Intent(Intent.ACTION_VIEW);
-      intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-      intent.setDataAndType(Uri.parse("file://" + path), "application/vnd.android.package-archive");
-      _context.startActivity(intent);
+  public void install(String path, String activity) {
+    Log.i("INSTALLER", "install " + path);
+    String cmd = "chmod 777 " + path;
+    try {
+        Runtime.getRuntime().exec(cmd);
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    try {
+      Process processInstall = Runtime.getRuntime().exec("su pm install -r " + path);
+      processInstall.waitFor();
+
+      // Process processStartActivity = Runtime.getRuntime().exec("su am start -n com.ruijiahospitalnativev4/com.ruijiahospitalnativev4.MainActivity");
+      Process processStartActivity = Runtime.getRuntime().exec("su am start -n " + activity);
+      processStartActivity.waitFor();
+      
+    } catch (Exception ex) {
+      Log.i("INSTALLER", "ERROR Could not pm install", ex);
+    }
   }
 }
