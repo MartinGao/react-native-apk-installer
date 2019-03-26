@@ -10,6 +10,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.io.File;
 
+import java.lang.*; 
+import java.io.*; 
+
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
@@ -54,16 +57,24 @@ public class ApkInstallerModule extends ReactContextBaseJavaModule {
         e.printStackTrace();
     }
 
-    try {
-      Process processInstall = Runtime.getRuntime().exec("su pm install -r " + path);
-      processInstall.waitFor();
+    String cmd = "su pm install -r " + path + " && " + "su am start -n " + activity
+    Log.i("APK_INSTALLER", cmd);
+    ProcessBuilder pb = new ProcessBuilder(cmd);
+    pb.redirectOutput(Redirect.INHERIT);
+    pb.redirectError(Redirect.INHERIT);
+    Process process = pb.start();
 
-      // Process processStartActivity = Runtime.getRuntime().exec("su am start -n com.ruijiahospitalnativev4/com.ruijiahospitalnativev4.MainActivity");
-      Process processStartActivity = Runtime.getRuntime().exec("su am start -n " + activity);
-      processStartActivity.waitFor();
+    // try {
+
+    //   Process processInstall = Runtime.getRuntime().exec(cmd);
+    //   processInstall.waitFor();
+    //   Log.i("APK_INSTALLER", "Finish");
       
-    } catch (Exception ex) {
-      Log.i("APK_INSTALLER", "ERROR Could not pm install", ex);
-    }
+    // } catch (Exception ex) {
+    //   Log.i("APK_INSTALLER", "ERROR Could not pm install", ex);
+    // }
   }
 }
+
+// pm install -r data/data/com.ruijiahospitalnativev4/cache/com.example.app.1553600357911.apk && am start -n com.ruijiahospitalnativev4/com.ruijiahospitalnativev4.MainActivity
+// am start -n com.ruijiahospitalnativev4/com.ruijiahospitalnativev4.MainActivity
