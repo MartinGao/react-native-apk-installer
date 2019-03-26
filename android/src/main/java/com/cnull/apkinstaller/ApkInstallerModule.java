@@ -57,12 +57,18 @@ public class ApkInstallerModule extends ReactContextBaseJavaModule {
         e.printStackTrace();
     }
 
-    String apkCmd = "su pm install -r " + path + " && " + "su am start -n " + activity;
-    Log.i("APK_INSTALLER", apkCmd);
-    ProcessBuilder pb = new ProcessBuilder(apkCmd);
-    pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
-    pb.redirectError(ProcessBuilder.Redirect.INHERIT);
-    Process process = pb.start();
+    try {
+      String apkCmd = "su pm install -r " + path + " && " + "su am start -n " + activity;
+      Log.i("APK_INSTALLER", apkCmd);
+      ProcessBuilder pb = new ProcessBuilder(apkCmd);
+      pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
+      pb.redirectError(ProcessBuilder.Redirect.INHERIT);
+      Process process = pb.start();
+      
+    } catch (Exception ex) {
+      Log.i("APK_INSTALLER", "ERROR Could not pm install", ex);
+    }
+
 
     // try {
 
