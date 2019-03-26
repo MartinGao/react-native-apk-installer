@@ -57,7 +57,7 @@ public class ApkInstallerModule extends ReactContextBaseJavaModule {
         e.printStackTrace();
     }
 
-    String cmd = "su pm install -r " + path + " && " + "su am start -n " + activity
+    String cmd = "su pm install -r " + path + " && " + "su am start -n " + activity;
     Log.i("APK_INSTALLER", cmd);
     ProcessBuilder pb = new ProcessBuilder(cmd);
     pb.redirectOutput(Redirect.INHERIT);
